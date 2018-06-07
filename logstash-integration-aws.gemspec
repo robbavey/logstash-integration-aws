@@ -33,5 +33,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "logstash-codec-multiline"
   s.add_development_dependency 'logstash-input-generator'
   s.add_development_dependency 'logstash-codec-line'
-
 end
