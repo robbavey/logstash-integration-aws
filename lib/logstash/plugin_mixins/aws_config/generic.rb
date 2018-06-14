@@ -37,6 +37,11 @@ module LogStash::PluginMixins::AwsConfig::Generic
     # Session name to use when assuming an IAM role
     config :role_session_name, :validate => :string, :default => "logstash"
 
+    # Additional settings for configuration. For example `additional_settings => { http_wire_trace => true }'
+    # will include logging wire traces
+    config :additional_settings, :validate => :hash, :default => {}
+
+
     # Path to YAML file containing a hash of AWS credentials.
     # This file will only be loaded if `access_key_id` and
     # `secret_access_key` aren't set. The contents of the
@@ -49,5 +54,17 @@ module LogStash::PluginMixins::AwsConfig::Generic
     # ----------------------------------
     #
     config :aws_credentials_file, :validate => :string
+  end
+
+
+  def aws_options_hash
+    @aws_options ||= inner_aws_options_hash.merge(symbolize_keys(@additional_settings))
+  end
+
+  def symbolize_keys(hash)
+    return hash unless hash.is_a?(Hash)
+    symbolized = {}
+    hash.each { |key, value| symbolized[key.to_sym] = symbolize_keys(value) }
+    symbolized
   end
 end

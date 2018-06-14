@@ -92,6 +92,13 @@ describe LogStash::PluginMixins::AwsConfig do
     end
   end
 
+  describe 'additional settings' do
+    let(:settings) { { 'access_key_id' => '1234',  'secret_access_key' => 'secret', 'additional_settings' => { 'http_wire_trace' => true} } }
+    it 'shoud symbolize additional settings' do
+      expect(subject[:http_wire_trace]).to be_truthy
+    end
+  end
+
   context 'when we arent providing credentials' do
     let(:settings) { {} }
     it 'should always return a hash' do

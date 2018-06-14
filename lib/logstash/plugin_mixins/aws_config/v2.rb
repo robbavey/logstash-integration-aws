@@ -7,8 +7,8 @@ module LogStash::PluginMixins::AwsConfig::V2
     base.send(:include, LogStash::PluginMixins::AwsConfig::Generic)
   end
 
-  public
-  def aws_options_hash
+  private
+  def inner_aws_options_hash
     opts = {}
 
     if @access_key_id.is_a?(NilClass) ^ @secret_access_key.is_a?(NilClass)

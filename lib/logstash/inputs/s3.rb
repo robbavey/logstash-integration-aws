@@ -327,17 +327,6 @@ class LogStash::Inputs::S3 < LogStash::Inputs::Base
     path
   end
 
-  def symbolized_settings
-    @symbolized_settings ||= symbolize(@additional_settings)
-  end
-
-  def symbolize(hash)
-    return hash unless hash.is_a?(Hash)
-    symbolized = {}
-    hash.each { |key, value| symbolized[key.to_sym] = symbolize(value) }
-    symbolized
-  end
-
   private
   def old_sincedb_file
   end
@@ -408,8 +397,7 @@ class LogStash::Inputs::S3 < LogStash::Inputs::Base
 
   private
   def get_s3object
-    options = symbolized_settings.merge(aws_options_hash || {})
-    s3 = Aws::S3::Resource.new(options)
+    s3 = Aws::S3::Resource.new(aws_options_hash || {})
   end
 
   private

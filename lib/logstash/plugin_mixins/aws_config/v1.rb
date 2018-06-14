@@ -18,8 +18,8 @@ module LogStash::PluginMixins::AwsConfig::V1
     config :use_ssl, :validate => :boolean, :default => true
   end
 
-  public
-  def aws_options_hash
+  private
+  def inner_aws_options_hash
     opts = {}
 
     if @role_arn || @role_session_name
